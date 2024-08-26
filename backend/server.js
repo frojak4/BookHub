@@ -1,8 +1,12 @@
 const express = require('express');
 const sql = require('./config.js');
-const PORT = 3002;
+const PORT = 3000;
+const utility = require('./utility.js');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+app.use(bodyParser.json());
 
 app.get('/all', (req, res) => {
     const request = new sql.Request();
@@ -71,6 +75,26 @@ app.delete('/delete/:id', (req, res) => {
         }
     })
 })
+
+app.post('/create', (req, res) => {
+    if (utility.checkNewBook(req.body)) {
+    const request = new sql.Request();
+    request.query(`INSERT INTO BOOKS (ISBN,Author, Title, Published, Done, Score, Pages)
+                    VALUES (${req.body.ISBN}, '${req.body.Author}', '${req.body.Title}', 
+                    '${req.body.Published}', ${req.body.Done}, ${req.body.Score}, ${req.body.Pages});`, (err, result) => {
+                  if (err) {
+                      res.status(400).send(err)
+                 } else {
+                     res.status(200).send(req.body);
+                }
+            })
+} else {
+    res.send(400).status('Invalid details for book.')
+    console.log("Check");
+}
+})
+
+
 
 
 app.listen(PORT, () => {
