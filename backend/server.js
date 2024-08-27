@@ -3,8 +3,17 @@ const sql = require('./config.js');
 const PORT = 3000;
 const utility = require('./utility.js');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors(
+    {
+        origin: 'http://localhost:3002',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type']
+    }
+))
 
 app.use(bodyParser.json());
 
@@ -20,7 +29,7 @@ app.get('/all', (req, res) => {
     })
 })
 
-app.get('/ranked', (req, res) => {
+app.get('/all/ranked', (req, res) => {
     const request = new sql.Request();
     request.query('SELECT * FROM BOOKS ORDER BY Score DESC', (err, result) => {
         if (err) {
@@ -43,7 +52,7 @@ app.get('/books/:id', (req, res) => {
     })
 })
 
-app.get('/authorsort', (req, res) => {
+app.get('/all/authorsort', (req, res) => {
     const request = new sql.Request();
     request.query('SELECT * FROM BOOKS ORDER BY Author', (err, result) => {
     if (err) {
@@ -54,7 +63,7 @@ app.get('/authorsort', (req, res) => {
 })
 })
 
-app.get('/titlesort', (req, res) => {
+app.get('/all/titlesort', (req, res) => {
     const request = new sql.Request();
     request.query('SELECT * FROM BOOKS ORDER BY Title', (err, result) => {
         if (err) {
@@ -94,6 +103,24 @@ app.post('/create', (req, res) => {
 }
 })
 
+app.put('/edit/:id', (req, res) => {
+    if (utility.checkNewBook(req.body)) {
+        const request = new sql.Request();
+        request.query(`UPDATE BOOKS 
+            SET Author = '${req.body.Author}',
+                Title = '${req.body.Title}',
+                Done = ${req.body.Done},
+                Score = ${req.body.Score}
+            WHERE ID = ${req.params.id}`, (err, result) =>{
+                    if (err) {
+                        res.status(400).send(err);
+                        console.log(err);
+                    } else {
+                        res.status(200).send(req.body);
+                    }
+                        });
+    }
+})
 
 
 
