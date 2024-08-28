@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors(
     {
-        origin: 'http://localhost:3002',
+        origin: 'http://localhost:3001',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type']
     }
@@ -73,6 +73,20 @@ app.get('/all/titlesort', (req, res) => {
         }
     })
 })
+
+
+app.get('/userstats', (req, res) => {
+    const request = new sql.Request();
+    request.query('SELECT COUNT(Title) AS "Books", SUM(Pages) AS "Pages" FROM BOOKS WHERE Done = 1', (err, result) => {
+        if (err) {
+            res.status(400).send('Could not get total books')
+        } else {
+            res.status(200).send(result.recordset);
+        }
+    })
+})
+
+
 
 app.delete('/delete/:id', (req, res) => {
     const request = new sql.Request();

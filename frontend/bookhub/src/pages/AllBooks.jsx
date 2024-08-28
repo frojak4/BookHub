@@ -15,11 +15,11 @@ const AllBooks = () => {
         .then((response) => {
             console.log(response.data)
             setBooks(response.data)
-            setLoading(true);
+            setLoading(false);
         })
         .catch((error) => {
             console.log(error)
-            setLoading(true);
+            setLoading(false);
         });
     }, [])
 
@@ -27,10 +27,9 @@ const AllBooks = () => {
     <div className="bg-slate-950 h-screen">
         {loading ? <Spinner/> : 
         books.map((book) => {
-            return <div className="w-screen text-center"><Link to={`/books/${book.ID}`}> {book.Author} // {book.Title} // {book.Score}</Link></div>
+            return <div className=" bg-slate-800 w-screen text-center text-slate-100"><Link to={`/books/${book.ID}`}> {book.Author} // {book.Title} // {book.Score}</Link></div>
         }
         )}
-        <h3 className="text-amber-200 border-2 border-amber-400">Test</h3>
     </div>
   )
 }

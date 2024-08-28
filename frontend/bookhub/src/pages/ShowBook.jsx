@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
+import Header from '../components/Header';
 
 
 const ShowBook = () => {
@@ -25,8 +26,10 @@ const ShowBook = () => {
     }, [])
 
   return (
-    <div className="bg-blue-950">{loading ? <Spinner/> : 
-        <div>
+    <div className="bg-slate-950 h-screen">
+        <Header/>
+        {loading ? <Spinner/> : 
+        <div className="text-white">
             {book.Author} <br/>
             {book.Title} <br/>
             {book.Pages} <br/>
