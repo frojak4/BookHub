@@ -27,7 +27,7 @@ const Library = () => {
   return (
     <div className="flex align-center flex-col mt-7 mr-36">
             <h3 className="text-white text-2xl">Your library</h3>
-            <div className="bg-slate-800 h-full w-[44rem] rounded-xl mt-2 overflow-auto">
+            <div className="bg-slate-800 h-full w-[32rem] rounded-xl mt-2 overflow-auto">
             <SortingButtons setSort={setSort}/>
                 {loading ? <Spinner/> : 
                 books.map((book, i) => {

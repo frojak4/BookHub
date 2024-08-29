@@ -4,6 +4,8 @@ const PORT = 3000;
 const utility = require('./utility.js');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config();
+const axios = require('axios');
 
 const app = express();
 
@@ -83,6 +85,17 @@ app.get('/userstats', (req, res) => {
         } else {
             res.status(200).send(result.recordset);
         }
+    })
+})
+
+app.get('/search/:query', (req, res) => {
+    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${req.params.query}&maxResults=10&key=${process.env.API_KEY}`)
+    .then((response) => {
+        console.log(response.data);
+        res.status(200).send(response.data.items);
+    })
+    .catch((error) => {
+        res.status(400).send(error);
     })
 })
 

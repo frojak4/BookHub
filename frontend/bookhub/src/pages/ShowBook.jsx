@@ -26,14 +26,19 @@ const ShowBook = () => {
     }, [])
 
   return (
-    <div className="bg-slate-950 h-screen">
+    <div className="bg-slate-950 h-screen w-screen">
         <Header/>
         {loading ? <Spinner/> : 
-        <div className="text-white">
-            {book.Author} <br/>
-            {book.Title} <br/>
-            {book.Pages} <br/>
-            {book.Score} <br/>
+        
+        <div className="flex justify-center mt-16">
+            <img className="h-96 mr-12 rounded-md border-2 border-amber-400" alt="Book" src={book.Picture}/>
+            <div className="w-[40rem]">
+                <h3 className="text-white text-2xl border-b-2 border-slate-800 pb-2 mb-2">{book.Title}<span className="text-slate-400 mx-2 text-xl">by {book.Author}</span></h3>
+                <h3 className="text-slate-400 w-full">{book.Synopsis}</h3>
+            </div>
+            <div className="ml-8">
+                <h3 className="text-slate-400 text-4xl">{book.Score}/10</h3>
+            </div>
         </div>
             }
     </div>
