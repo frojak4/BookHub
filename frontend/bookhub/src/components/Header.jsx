@@ -20,11 +20,11 @@ const Header = () => {
     .get(`http://localhost:3000/search/${formatString}`)
     .then((response) => {
       setSearchData(response.data);
+      console.log(response.data);
     })
     .catch((error) => {
       console.log(error)
     })
-
   }
   }
 
@@ -35,9 +35,9 @@ const Header = () => {
             <h3 className="text-2xl text-amber-400 ml-2">BookHub</h3>
         </Link>
         <div>
-          <input className="w-56 rounded-md" value={search} onInput={handleSearch} onBlur={() => setIsFocused(false)} onFocus={() => setIsFocused(true)} placeholder="Search Books"></input>
+          <input className="w-56 rounded-md" value={search} onInput={handleSearch} onBlur={() => setIsFocused(true)} onFocus={() => setIsFocused(true)} placeholder="Search Books"></input>
           {searchData.length > 0 && 
-          <div className="bg-slate-800 text-white absolute flex flex-col z-10 border-2 border-slate-800 mt-3 rounded-md w-[96] max-w-[96] max-h-80 overflow-auto">
+          <div className="bg-slate-800 text-white fixed flex flex-col z-10 border-2 border-slate-800 mt-3 rounded-md w-[32rem] max-w-[32rem] max-h-80 overflow-auto">
             {search && isFocused &&
             searchData.map((book, i) => {
               return <SearchResult book={book} key={i}/>

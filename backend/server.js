@@ -99,6 +99,16 @@ app.get('/search/:query', (req, res) => {
     })
 })
 
+app.get('/getbook/:id', (req, res) => {
+    axios.get(`https://www.googleapis.com/books/v1/volumes/${req.params.id}`)
+    .then((response) => {
+        res.status(200).send(response.data);
+    })
+    .catch((error) => {
+        res.status(400).send(error);
+    })
+})
+
 
 
 app.delete('/delete/:id', (req, res) => {
