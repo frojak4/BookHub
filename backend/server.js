@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
 const axios = require('axios');
-
 const app = express();
 
 app.use(cors(
@@ -125,9 +124,11 @@ app.delete('/delete/:id', (req, res) => {
 app.post('/create', (req, res) => {
     if (utility.checkNewBook(req.body)) {
     const request = new sql.Request();
-    request.query(`INSERT INTO BOOKS (ISBN,Author, Title, Published, Done, Score, Pages)
+    request.query(`INSERT INTO BOOKS (ISBN, Author, Title, Published, Done, Score, Pages, Picture, Genre, Synopsis, GoogleID)
                     VALUES (${req.body.ISBN}, '${req.body.Author}', '${req.body.Title}', 
-                    '${req.body.Published}', ${req.body.Done}, ${req.body.Score}, ${req.body.Pages});`, (err, result) => {
+                    '${req.body.Published}', ${req.body.Done}, ${req.body.Score}, ${req.body.Pages}, ${req.body.Picture}, ${req.body.Genre}, ${req.body.Synopsis},
+                    ${req.body.GoogleID}
+                    );`, (err, result) => {
                   if (err) {
                       res.status(400).send(err)
                  } else {
@@ -135,7 +136,7 @@ app.post('/create', (req, res) => {
                 }
             })
 } else {
-    res.send(400).status('Invalid details for book.')
+    res.status(400).send('Invalid details for book.')
     console.log("Check");
 }
 })

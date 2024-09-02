@@ -26,7 +26,7 @@ const ShowBook = () => {
             .then((response) => {
                 setBook(formatBook(response.data));
                 setLoading(false);
-                console.log(response.data);
+                console.log(book);
             })
             .catch((error) => console.log(error));
         })
