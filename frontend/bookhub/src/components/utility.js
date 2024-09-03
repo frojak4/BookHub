@@ -19,7 +19,7 @@ export const formatBook = (book) => {
 
 export const addBookToServer = (book) => {
     console.log(book);
-    axios.post('/create', {
+    axios.post('http://localhost:3000/add', {
         ISBN: book.ISBN || 'Unknown ISBN',
         Author: book.Author || 'Unknown Author',
         Title: book.Title || 'Untitled',
@@ -28,7 +28,7 @@ export const addBookToServer = (book) => {
         Score: null,
         Pages: book.Pages || 0,
         Picture: book.Picture || '',
-        Genre: book.Genre || 'Unknown Genre',
+        Genre: book.Genre[0] || 'Unknown Genre',
         Synopsis: book.Synopsis || 'No synopsis available',
         GoogleID: book.GoogleID
     })

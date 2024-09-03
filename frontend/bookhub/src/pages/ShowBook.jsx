@@ -12,12 +12,14 @@ const ShowBook = () => {
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
     const [book, setBook] = useState();
+    const [inDatabase, setInDatabase] = useState(true);
 
     useEffect(() => {
         setLoading(true);
         axios
         .get(`http://localhost:3000/books/${id}`)
         .then((response) => {
+            console.log(response.data)
             setBook(response.data[0]);
             setLoading(false);
         })
@@ -25,8 +27,8 @@ const ShowBook = () => {
             axios.get(`http://localhost:3000/getbook/${id}`)
             .then((response) => {
                 setBook(formatBook(response.data));
+                setInDatabase(false)
                 setLoading(false);
-                console.log(book);
             })
             .catch((error) => console.log(error));
         })
@@ -37,7 +39,7 @@ const ShowBook = () => {
     <div className="bg-slate-950 h-screen w-screen">
         <Header/>
         {loading ? <Spinner/> : 
-            <BookPageDisplay book={book}/>
+            <BookPageDisplay book={book} inDatabase={inDatabase} setInDatabase={setInDatabase}/>
         }
     </div>
   )

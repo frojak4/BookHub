@@ -44,7 +44,7 @@ app.get('/all/ranked', (req, res) => {
 
 app.get('/books/:id', (req, res) => {
     const request = new sql.Request();
-    request.query(`SELECT * FROM BOOKS WHERE ID = ${req.params.id}`, (err, result) => {
+    request.query(`SELECT * FROM BOOKS WHERE GoogleID = ${req.params.id}`, (err, result) => {
         if (err) {
             res.status(404).send(`Book with ID ${req.params.id} could not be found`);
         } else {
@@ -121,25 +121,35 @@ app.delete('/delete/:id', (req, res) => {
     })
 })
 
-app.post('/create', (req, res) => {
-    if (utility.checkNewBook(req.body)) {
-    const request = new sql.Request();
-    request.query(`INSERT INTO BOOKS (ISBN, Author, Title, Published, Done, Score, Pages, Picture, Genre, Synopsis, GoogleID)
-                    VALUES (${req.body.ISBN}, '${req.body.Author}', '${req.body.Title}', 
-                    '${req.body.Published}', ${req.body.Done}, ${req.body.Score}, ${req.body.Pages}, ${req.body.Picture}, ${req.body.Genre}, ${req.body.Synopsis},
-                    ${req.body.GoogleID}
-                    );`, (err, result) => {
-                  if (err) {
-                      res.status(400).send(err)
-                 } else {
-                     res.status(200).send(req.body);
-                }
-            })
-} else {
-    res.status(400).send('Invalid details for book.')
-    console.log("Check");
-}
+
+app.post('/add', async (req, res) => {
+    console.log(req.body)
+    
+    const book = await createBook(req.body)
+    res.send(book);
 })
+
+async function createBook(book){
+    console.log("check")
+    const request = new sql.Request();
+
+    request.input('ISBN', sql.VarChar, book.ISBN);
+    request.input('Author', sql.VarChar, book.Author);
+    request.input('Title', sql.VarChar, book.Title);
+    request.input('Published', sql.VarChar, book.Published);
+    request.input('Done', sql.Bit, book.Done);
+    request.input('Score', sql.Int, book.Score);
+    request.input('Pages', sql.Int, book.Pages);
+    request.input('Picture', sql.VarChar,book.Picture);
+    request.input('Genre', sql.VarChar, book.Genre);
+    request.input('Synopsis', sql.VarChar, book.Synopsis);
+    request.input('GoogleID', sql.VarChar, book.GoogleID);
+
+    await request.query(`INSERT INTO BOOKS 
+        (ISBN, Author, Title, Published, Done, Score, Pages, Picture, Genre, Synopsis, GoogleID)
+        VALUES 
+        (@ISBN, @Author, @Title, @Published, @Done, @Score, @Pages, @Picture, @Genre, @Synopsis, @GoogleID);`)
+}
 
 app.put('/edit/:id', (req, res) => {
     if (utility.checkNewBook(req.body)) {

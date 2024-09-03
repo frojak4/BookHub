@@ -5,7 +5,7 @@ const BookInList = ({book}) => {
   return (
     <div className="flex flex-col border-b-2 border-slate-600">
         <div className="flex justify-between">
-            <Link to={`/books/${book.ISBN}`}>
+            <Link to={`/books/${book.GoogleID}`}>
             <h3 className="text-white mt-1 ml-2">{book.Title}</h3>
             </Link>
             {!book.Score ? "" : 
