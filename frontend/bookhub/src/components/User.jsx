@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Spinner from './Spinner';
 
-const User = () => {
+const User = ({user}) => {
 
     const [pages, setPages] = useState(0);
     const [readBooks, setReadBooks] = useState(0);
@@ -10,10 +10,11 @@ const User = () => {
 
     useEffect(() => {
         axios
-        .get('http://localhost:3000/userstats')
+        .get(`http://localhost:3000/user/stats/${user.user_id}`)
         .then((response) => {
-            setPages(response.data[0].Pages);
-            setReadBooks(response.data[0].Books);
+            console.log(response.data)
+            setPages(response.data[0].Pages)
+            setReadBooks(response.data[0].Total)
             setLoading(false);
         })
         .catch((error) => {

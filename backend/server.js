@@ -8,6 +8,7 @@ require('dotenv').config();
 const axios = require('axios');
 const app = express();
 
+
 app.use(cors(
     {
         origin: 'http://localhost:3001',
@@ -17,6 +18,9 @@ app.use(cors(
 ))
 
 app.use(bodyParser.json());
+
+const userRouter = require('./users.js');
+app.use('/user', userRouter);
 
 app.get('/all', (req, res) => {
     const request = new sql.Request();
@@ -44,10 +48,14 @@ app.get('/all/ranked', (req, res) => {
 
 app.get('/books/:id', (req, res) => {
     const request = new sql.Request();
-    request.query(`SELECT * FROM BOOKS WHERE GoogleID = ${req.params.id}`, (err, result) => {
+    request.input('id', sql.VarChar, req.params.id);
+    request.query(`SELECT * FROM BOOKS WHERE GoogleID = @id`, (err, result) => {
         if (err) {
+            res.status(400).send(`SQL error`);
+        } else if (result.recordset.length === 0) {
             res.status(404).send(`Book with ID ${req.params.id} could not be found`);
-        } else {
+        }
+         else {
             res.status(200).send(result.recordset);
         }
     })

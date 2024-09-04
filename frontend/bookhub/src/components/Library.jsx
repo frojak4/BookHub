@@ -4,7 +4,7 @@ import Spinner from '../components/Spinner';
 import BookInList from './BookInList';
 import SortingButtons from './SortingButtons';
 
-const Library = () => {
+const Library = ({user}) => {
 
     const [sort, setSort] = useState('titlesort')
     const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ const Library = () => {
 
     useEffect(() => {
         axios
-        .get(`http://localhost:3000/all/${sort}`)
+        .get(`http://localhost:3000/user/allbooks/${user.user_id}/${sort}`)
         .then((response) => {
             setBooks(response.data)
             setLoading(false);
@@ -28,7 +28,7 @@ const Library = () => {
     <div className="flex align-center flex-col mt-7 mr-36">
             <h3 className="text-white text-2xl">Your library</h3>
             <div className="bg-slate-800 h-[32rem] w-[32rem] rounded-xl mt-2 overflow-auto">
-            <SortingButtons setSort={setSort}/>
+            <SortingButtons setSort={setSort} sort={sort}/>
                 {loading ? <Spinner/> : 
                 books.map((book, i) => {
                    return <BookInList key={i} book={book} />
