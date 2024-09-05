@@ -89,6 +89,20 @@ userRouter.get('/stats/:id', (req, res) => {
     })
 })
 
+userRouter.get('/getentry/:bookid/:userid', (req, res) => {
+    const request = new sql.Request();
+    request.input('userid', sql.Int, req.params.userid);
+    request.input('bookid', sql.VarChar, req.params.bookid);
+
+    request.query(`SELECT * FROM entries WHERE GoogleID = @bookid AND userID = @userid`, (err, result) => {
+        if (err){
+            res.status(400).send('err');
+        } else {
+            res.status(200).send(result.recordset);
+        }
+    })
+})
+
 
 
 module.exports = userRouter;

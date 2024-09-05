@@ -95,6 +95,20 @@ app.get('/userstats', (req, res) => {
     })
 })
 
+app.get('/check/:id', (req, res) => {
+    const request = new sql.Request();
+    request.input('id', sql.VarChar, req.params.id)
+    request.query(`SELECT * FROM BOOKS WHERE GoogleID = @ID`, (err, result) => {
+    if(err){
+        res.status(400).send(err)
+    } else if (result.recordset.length === 0){
+        res.status(200).send(false);
+    } else {
+        res.status(200).send(true);
+    }
+} )
+})
+
 app.get('/search/:query', (req, res) => {
     axios.get(`https://www.googleapis.com/books/v1/volumes?q=${req.params.query}&maxResults=10&key=${process.env.API_KEY}`)
     .then((response) => {
@@ -115,6 +129,7 @@ app.get('/getbook/:id', (req, res) => {
         res.status(400).send(error);
     })
 })
+
 
 
 
@@ -146,7 +161,6 @@ async function createBook(book){
     request.input('Title', sql.VarChar, book.Title);
     request.input('Published', sql.VarChar, book.Published);
     request.input('Done', sql.Bit, book.Done);
-    request.input('Score', sql.Int, book.Score);
     request.input('Pages', sql.Int, book.Pages);
     request.input('Picture', sql.VarChar,book.Picture);
     request.input('Genre', sql.VarChar, book.Genre);
@@ -154,9 +168,9 @@ async function createBook(book){
     request.input('GoogleID', sql.VarChar, book.GoogleID);
 
     await request.query(`INSERT INTO BOOKS 
-        (ISBN, Author, Title, Published, Done, Score, Pages, Picture, Genre, Synopsis, GoogleID)
+        (ISBN, Author, Title, Published, Done, Pages, Picture, Genre, Synopsis, GoogleID)
         VALUES 
-        (@ISBN, @Author, @Title, @Published, @Done, @Score, @Pages, @Picture, @Genre, @Synopsis, @GoogleID);`)
+        (@ISBN, @Author, @Title, @Published, @Done, @Pages, @Picture, @Genre, @Synopsis, @GoogleID);`)
 }
 
 app.put('/edit/:id', (req, res) => {

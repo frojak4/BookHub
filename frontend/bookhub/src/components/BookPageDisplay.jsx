@@ -1,12 +1,15 @@
 import React, {useEffect} from 'react'
-import { addBookToServer } from './utility'
+import { addBookToServer, checkIfInDatabase } from './utility'
 
 const BookPageDisplay = ({book, loading, inDatabase, setInDatabase}) => {
 
 
-    const handleAdd = (book) => {
-        addBookToServer(book)
-        setInDatabase(true)
+    const handleAdd = async (book) => {
+       if (!inDatabase){
+            addBookToServer(book);
+       }
+
+
     }
 
   return (
@@ -24,6 +27,7 @@ const BookPageDisplay = ({book, loading, inDatabase, setInDatabase}) => {
                 {inDatabase ? <h3 className="text-white">Added</h3> : <button onClick={() => handleAdd(book)} className="text-white">Add to server</button>}
             </div>
         </div>     
+        
   )
 }
 

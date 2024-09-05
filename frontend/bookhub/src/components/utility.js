@@ -25,7 +25,6 @@ export const addBookToServer = (book) => {
         Title: book.Title || 'Untitled',
         Published: book.Published || 'Unknown',
         Done: 0,
-        Score: null,
         Pages: book.Pages || 0,
         Picture: book.Picture || '',
         Genre: book.Genre[0] || 'Unknown Genre',
@@ -37,3 +36,17 @@ export const addBookToServer = (book) => {
     })
     .catch((error) => console.log(error));
 }
+
+export const fetchBook = async (id) => {
+    const response = await axios.get(`http://localhost:3000/books/${id}`)
+    
+}
+
+export const checkIfInDatabase = async (id) => {
+    await axios.get(`http://localhost:3000/check/${id}`)
+    .then((response) => {
+        return response.data;
+    })
+    .catch(error => console.log(error)) 
+}
+
