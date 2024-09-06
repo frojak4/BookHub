@@ -17,9 +17,9 @@ export const formatBook = (book) => {
 }
 
 
-export const addBookToServer = (book) => {
+export const addBookToServer = async (book) => {
     console.log(book);
-    axios.post('http://localhost:3000/add', {
+    await axios.post('http://localhost:3000/add', {
         ISBN: book.ISBN || 'Unknown ISBN',
         Author: book.Author || 'Unknown Author',
         Title: book.Title || 'Untitled',
@@ -39,14 +39,15 @@ export const addBookToServer = (book) => {
 
 export const fetchBook = async (id) => {
     const response = await axios.get(`http://localhost:3000/books/${id}`)
-    
 }
 
 export const checkIfInDatabase = async (id) => {
-    await axios.get(`http://localhost:3000/check/${id}`)
-    .then((response) => {
-        return response.data;
-    })
-    .catch(error => console.log(error)) 
+    try {
+    const response = await axios.get(`http://localhost:3000/check/${id}`)
+    return response.data;
+    } catch (error){
+        console.log(error)
+    }
+    
 }
 

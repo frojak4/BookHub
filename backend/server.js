@@ -11,7 +11,7 @@ const app = express();
 
 app.use(cors(
     {
-        origin: 'http://localhost:3001',
+        origin: 'http://localhost:3002',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type']
     }
@@ -102,8 +102,10 @@ app.get('/check/:id', (req, res) => {
     if(err){
         res.status(400).send(err)
     } else if (result.recordset.length === 0){
+        console.log('false');
         res.status(200).send(false);
     } else {
+        console.log('true');
         res.status(200).send(true);
     }
 } )

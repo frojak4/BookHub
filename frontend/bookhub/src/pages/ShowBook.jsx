@@ -12,25 +12,37 @@ const ShowBook = ({user}) => {
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
     const [book, setBook] = useState();
-    const [inDatabase, setInDatabase] = useState(true);
-    const [entry, setEntry] = useState();
+    const [inDatabase, setInDatabase] = useState();
+    const [entry, setEntry] = useState(null);
+    const [hasEntry, setHasEntry] = useState(false)
+
+
 
     useEffect(() => {
         setLoading(true);
 
         const fetchBook = async () => {
 
-            if (await checkIfInDatabase(id)) {
+            const inDB = await checkIfInDatabase(id);
+            setInDatabase(inDB);
+            
+            if (inDB) {
                 axios.get(`http://localhost:3000/books/${id}`)
                 .then((response) => {
-                    setBook(response.data)
-                    setInDatabase(true);
+                    console.log('server')
+                    console.log(response.data[0])
+                    setBook(response.data[0])
+                    console.log(user);
 
                     axios.get(`http://localhost:3000/user/getentry/${id}/${user.user_id}`)
                     .then((response) => {
-                        setEntry(response.data)
-                        console.log(response.data);
-                        console.log(entry);
+                        console.log('entry')
+                        console.log(response.data[0]);
+
+                        if(response.data[0]){
+                            setEntry(response.data[0]);
+                            setHasEntry(true);
+                    }
                         setLoading(false);
                     })
                     .catch((error) => console.log(error));
@@ -40,7 +52,8 @@ const ShowBook = ({user}) => {
             } else {
                 axios.get(`http://localhost:3000/getbook/${id}`)
                 .then((response) =>{
-                    setBook(response.data)
+                    console.log(response.data)
+                    setBook(formatBook(response.data))
                     setLoading(false);
                 })
                 .catch((err) => console.log(err))
@@ -48,14 +61,13 @@ const ShowBook = ({user}) => {
 
     }
     fetchBook();
-        
     }, [id])
 
   return (
     <div className="bg-slate-950 h-screen w-screen">
         <Header/>
         {loading ? <Spinner/> : 
-            <BookPageDisplay book={book} inDatabase={inDatabase} setInDatabase={setInDatabase}/>
+            <BookPageDisplay book={book} inDatabase={inDatabase} score={entry.Score} pagesread={entry.PagesRead} status={entry.ReadingStatus} hasEntry={hasEntry} setInDatabase={setInDatabase}/>
         }
     </div>
   )
