@@ -5,6 +5,9 @@ import Spinner from '../components/Spinner';
 import Header from '../components/Header';
 import BookPageDisplay from '../components/BookPageDisplay';
 import { checkIfInDatabase, formatBook } from '../components/utility';
+import BookImage from '../components/BookImage';
+import BookEntry from '../components/BookEntry';
+import NewBookEntry from '../components/NewBookEntry';
 
 
 const ShowBook = ({user}) => {
@@ -65,9 +68,15 @@ const ShowBook = ({user}) => {
 
   return (
     <div className="bg-slate-950 h-screen w-screen">
-        <Header/>
+        <Header searchBar={true}/>
         {loading ? <Spinner/> : 
-            <BookPageDisplay book={book} inDatabase={inDatabase} score={entry.Score} pagesread={entry.PagesRead} status={entry.ReadingStatus} hasEntry={hasEntry} setInDatabase={setInDatabase}/>
+            <div className="flex justify-center mt-16">
+                <BookImage book={book}/> 
+                <BookPageDisplay book={book}/>
+                {hasEntry ? 
+                <BookEntry book={book} user={user} inDatabase={inDatabase} score={entry.Score} ID={entry.entryID} pagesread={entry.PagesRead} status={entry.ReadingStatus} setInDatabase={setInDatabase}/> 
+                : <NewBookEntry setHasEntry={setHasEntry} inDatabase={inDatabase} book={book} user={user}/>}
+            </div>
         }
     </div>
   )

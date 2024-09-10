@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Header from '../components/Header'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,10 @@ const LogIn = ({user, setUser}) => {
         setUsernameInput(e.target.value)
     }
 
+    useEffect(() => {
+        setUser({username: '', user_id: null});
+    }, [])
+
     const handleLogIn = async () => {
         axios.get(`http://localhost:3000/user/${usernameInput}`)
         .then((response) => {
@@ -25,7 +29,7 @@ const LogIn = ({user, setUser}) => {
 
   return (
     <div className="bg-slate-950 min-w-screen min-h-screen">
-        <Header/>
+        <Header searchBar={false}/>
         <div className="text-white flex justify-center mt-8">Welcome to BookHub, please log in or register to continue</div>
         <div>
             <div className="flex justify-center mt-4">

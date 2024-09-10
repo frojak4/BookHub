@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import SearchResult from './SearchResult';
 
-const Header = () => {
+const Header = ({searchBar}) => {
   const [search, setSearch] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
@@ -34,6 +34,7 @@ const Header = () => {
         <Link to={'/home'}>
             <h3 className="text-2xl text-amber-400 ml-2">BookHub</h3>
         </Link>
+        {searchBar && 
         <div>
           <input className="w-56 rounded-md" value={search} onInput={handleSearch} onBlur={() => setIsFocused(true)} onFocus={() => setIsFocused(true)} placeholder="Search Books"></input>
           {searchData.length > 0 && 
@@ -45,6 +46,7 @@ const Header = () => {
           }
           </div>}
         </div>
+        }
         <div className="flex">
             <h3 className="text-white mx-1">About</h3>
             <h3 className="text-white mx-1">Contact</h3>

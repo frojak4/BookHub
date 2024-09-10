@@ -11,7 +11,7 @@ const app = express();
 
 app.use(cors(
     {
-        origin: 'http://localhost:3002',
+        origin: 'http://localhost:3001',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type']
     }
@@ -21,6 +21,9 @@ app.use(bodyParser.json());
 
 const userRouter = require('./users.js');
 app.use('/user', userRouter);
+
+const entryRouter = require('./entries.js');
+app.use('/entry', entryRouter);
 
 app.get('/all', (req, res) => {
     const request = new sql.Request();
