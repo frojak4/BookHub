@@ -27,7 +27,7 @@ export const addBookToServer = async (book) => {
         Done: 0,
         Pages: book.Pages || 0,
         Picture: book.Picture || '',
-        Genre: book.Genre[0] || 'Unknown Genre',
+        Genre: book?.Genre[0] || 'Unknown Genre',
         Synopsis: book.Synopsis || 'No synopsis available',
         GoogleID: book.GoogleID
     })
@@ -51,6 +51,8 @@ export const checkIfInDatabase = async (id) => {
     
 }
 
+
+
 export const updateEntry = (entry) => {
     axios.put('http://localhost:3000/entry/update', entry)
     .then((response) => {
@@ -59,12 +61,15 @@ export const updateEntry = (entry) => {
     .catch((err) => console.log(err));
 }
 
-export const createEntry = (entry) => {
-    axios.post('http://localhost:3000/entry/create', entry)
-    .then((response) => {
-        console.log(response)
-    })
-    .catch((err) => console.log(err))
+export const createEntry = async (entry) => {
+
+    try {
+        await axios.post('http://localhost:3000/entry/create', entry)
+        return;
+    } catch(err) {
+        console.log(err)
+    }
+    
 }
 
 export const getBookID = async (googleID) => {
@@ -74,6 +79,5 @@ export const getBookID = async (googleID) => {
     } catch(err){
         console.log(err);
     }
-    
     
 }

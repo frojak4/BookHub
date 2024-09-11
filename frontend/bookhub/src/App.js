@@ -5,6 +5,7 @@ import ShowBook from './pages/ShowBook';
 import AllBooks from './pages/AllBooks';
 import Home from './pages/Home';
 import LogIn from './pages/LogIn';
+import Profile from './pages/Profile';
 import React, {useState} from 'react';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Route path='/home' element={<Home user={user}/>}/>
       <Route path='/books/:id' element={<ShowBook user={user}/>}/>
       <Route path='/all/:sort' element={<AllBooks/>}/>
+      <Route path='/user/:username' element={<Profile/>}/>
     </Routes>
   );
 }

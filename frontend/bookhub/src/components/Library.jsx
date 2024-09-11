@@ -25,8 +25,8 @@ const Library = ({user}) => {
 
 
   return (
-    <div className="flex align-center flex-col mt-7 mr-36">
-            <h3 className="text-white text-2xl">Your library</h3>
+    <div className="flex align-center flex-col mt-7">
+            <h3 className="text-white text-2xl text-center">{user.username}'s library</h3>
             <div className="bg-slate-800 h-[32rem] w-[32rem] rounded-xl mt-2 overflow-auto">
             <SortingButtons setSort={setSort} sort={sort}/>
                 {loading ? <Spinner/> : 

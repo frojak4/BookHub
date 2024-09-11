@@ -1,8 +1,24 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { createEntry, addBookToServer, getBookID } from './utility'
 
-const NewBookEntry = ({book, user, inDatabase, setHasEntry}) => {
+const NewBookEntry = ({book, user, inDatabase, setCreatedEntry}) => {
 
+
+    const [toggleAdd, setToggleAdd] = useState(false);
+    const [newPages, setNewPages] = useState(undefined);
+    const [newScore, setNewScore] = useState(undefined);
+    const [newStatus, setNewStatus] = useState('blank')
+    const [errorMSG, setErrorMSG] = useState("");
+    const [pageDisable, setPageDisable] = useState(true);
+
+    useEffect(() => {
+        setToggleAdd(false);
+        setNewPages(undefined);
+        setNewScore(undefined);
+        setNewStatus('blank');
+        setErrorMSG('');
+        setPageDisable(true);
+    }, [])
    
 
     const handlePageChange = (e) => {
@@ -32,9 +48,19 @@ const NewBookEntry = ({book, user, inDatabase, setHasEntry}) => {
         setNewPages(0);
         setPageDisable(true);
        }
+
+       if(e.target.value === 'blank'){
+        setPageDisable(true);
+       }
+
     }
 
     const handleConfirmChange = async () => {
+        if (newStatus === 'blank'){
+            setErrorMSG('Please enter reading status');
+            return;
+        }
+
         if (!inDatabase){
             await addBookToServer(book);
        }
@@ -48,17 +74,12 @@ const NewBookEntry = ({book, user, inDatabase, setHasEntry}) => {
             userID: user.user_id,
             GoogleID: book.GoogleID
         }
-        createEntry(entry);
+        await createEntry(entry);
         setToggleAdd(!toggleAdd);
-        setHasEntry(true);
+        setCreatedEntry(true);
     }
 
-    const [toggleAdd, setToggleAdd] = useState(false);
-     const [newPages, setNewPages] = useState(undefined);
-     const [newScore, setNewScore] = useState(undefined);
-     const [newStatus, setNewStatus] = useState('Done')
-     const [errorMSG, setErrorMSG] = useState("");
-     const [pageDisable, setPageDisable] = useState(true);
+    
 
   return (
     <div className="ml-6 bg-slate-800 w-44 h-44 flex flex-col justify-center items-center rounded-2xl">
@@ -70,16 +91,19 @@ const NewBookEntry = ({book, user, inDatabase, setHasEntry}) => {
         <h3 className="text-slate-400 text-4xl">/10</h3>
         </div>
         <select value={newStatus} onChange={handleStatusChange} name="status" id="status">
+            <option value="blank"></option>
             <option value="Done">Done</option>
             <option value="Reading">Reading</option>
             <option value="Want to Read">Want to Read</option>
         </select>
+        {!pageDisable &&
         <div className="flex items-center">
         <input className="mt-2 mr-1 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none w-12 text-center" 
         type="number" onChange={handlePageChange} disabled={pageDisable} value={newPages} max={book.Pages}/>
         <h3 className="text-slate-400 ml-1 pt-2">/ {book.Pages} Pages</h3>
         </div>
-        <h3 className="text-red-500 m-0">{errorMSG}</h3>
+        }
+        <h3 className="text-red-500 m-0 text-sm">{errorMSG}</h3>
         <div className="flex">
             <button onClick={handleConfirmChange} className="text-white mt-2 mr-1">Add Book</button>
             <button onClick={() => setToggleAdd(!toggleAdd)} className="mt-2 ml-1 text-red-500">Cancel</button>

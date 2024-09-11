@@ -47,6 +47,21 @@ userRouter.get('/allbooks/:id/authorsort', (req, res) => {
     })
 })
 
+userRouter.get('/allbooks/:id/status', (req, res) => {
+    const request = new sql.Request();
+    request.input('id', sql.Int, req.params.id);
+    request.query(`SELECT * FROM BOOKS JOIN entries on entries.bookID = BOOKS.ID WHERE entries.userID = @ID ORDER BY entries.ReadingStatus`, (err, result) => {
+        if (err) {
+            res.status(400).send(err);
+        } else if (result.recordset.length === 0){
+            res.status(400).send('Could not fetch users books')
+        } else {
+            res.status(200).send(result.recordset)
+        }
+    })
+})
+
+
 userRouter.get('/allbooks/:id/titlesort', (req, res) => {
     const request = new sql.Request();
     request.input('id', sql.Int, req.params.id);
@@ -96,7 +111,20 @@ userRouter.get('/getentry/:bookid/:userid', (req, res) => {
 
     request.query(`SELECT * FROM entries WHERE GoogleID = @bookid AND userID = @userid`, (err, result) => {
         if (err){
-            res.status(400).send('err');
+            res.status(400).send(err);
+        } else {
+            res.status(200).send(result.recordset);
+        }
+    })
+})
+
+userRouter.get('/search/:name', (req, res) => {
+    const request = new sql.Request();
+    
+
+    request.query(`SELECT * from users WHERE username LIKE '%${req.params.name}%'`, (err, result) => {
+        if (err){
+            res.status(400).send(err);
         } else {
             res.status(200).send(result.recordset);
         }

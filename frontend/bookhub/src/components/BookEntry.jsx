@@ -3,6 +3,13 @@ import { addBookToServer, updateEntry} from './utility'
 
 const BookEntry = ({inDatabase, pagesread, score, book, status, ID, user}) => {
 
+
+    const [editToggle, setEditToggle] = useState(false)
+    const [newPages, setNewPages] = useState(pagesread);
+    const [newScore, setNewScore] = useState(score)
+    const [newStatus, setNewStatus] = useState(status)
+    const [errorMSG, setErrorMSG] = useState("");
+    const [pageDisable, setPageDisable] = useState(true);
  
      const handlePageChange = (e) => {
          if (e.target.value < book.Pages) {
@@ -21,10 +28,24 @@ const BookEntry = ({inDatabase, pagesread, score, book, status, ID, user}) => {
 
      const handleStatusChange = (e) => {
         setNewStatus(e.target.value)
+       setPageDisable(false);
+       if (e.target.value === 'Done') {
+        setNewPages(book.Pages);
+        setPageDisable(true);
+       }
+
+       if(e.target.value === 'Want to Read'){
+        setNewPages(0);
+        setPageDisable(true);
+       }
+
+       if(e.target.value === 'blank'){
+        setPageDisable(true);
+       }
      }
  
      const handleConfirmChange = () => {
-        if(newPages && newScore && newStatus){
+        if(newStatus){
             setEditToggle(false);
             const entry = {
                 Pages: newPages,
@@ -39,17 +60,13 @@ const BookEntry = ({inDatabase, pagesread, score, book, status, ID, user}) => {
         }
      }
  
-     const [editToggle, setEditToggle] = useState(false)
-     const [newPages, setNewPages] = useState(pagesread);
-     const [newScore, setNewScore] = useState(score)
-     const [newStatus, setNewStatus] = useState(status)
-     const [errorMSG, setErrorMSG] = useState("");
+    
 
   return (
     <div className="ml-6 bg-slate-800 w-44 h-44 flex flex-col justify-center items-center rounded-2xl">
     {!editToggle &&
         <div className="flex flex-col text-center">
-            <h3 className="text-white text-4xl mb-4">{score}/10</h3>
+            {score && <h3 className="text-white text-4xl mb-4">{score}/10</h3>}
             <h3 className="text-slate-400">Status: {newStatus}</h3>
             <h3 className="text-slate-400">Pages Read: {newPages} / {book.Pages}</h3>
             <button onClick={() => setEditToggle(true)} className="text-white mt-2">Edit</button>
@@ -69,7 +86,7 @@ const BookEntry = ({inDatabase, pagesread, score, book, status, ID, user}) => {
             </select>
             <div className="flex items-center">
             <input className="mt-2 mr-1 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none w-12 text-center" 
-            type="number" onChange={handlePageChange} value={newPages} max={book.Pages}/>
+            type="number" disabled={pageDisable} onChange={handlePageChange} value={newPages} max={book.Pages}/>
             <h3 className="text-slate-400 ml-1 pt-2"> / {book.Pages} Pages</h3>
             </div>
             <h3 className="text-red-500 m-0">{errorMSG}</h3>

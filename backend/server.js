@@ -154,7 +154,7 @@ app.post('/add', async (req, res) => {
     console.log(req.body)
     
     const book = await createBook(req.body)
-    res.send(book);
+    res.status(200).send(book);
 })
 
 async function createBook(book){

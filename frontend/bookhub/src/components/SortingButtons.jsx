@@ -13,6 +13,8 @@ const SortingButtons = ({setSort, sort}) => {
             className="text-slate-400 ml-2 hover:cursor-pointer disabled:text-white hover:text-slate-200">Author</button>
             <button onClick={() => setSort('ranked')} disabled={sort === 'ranked'} 
             className="text-slate-400 ml-2 hover:cursor-pointer disabled:text-white hover:text-slate-200">Score</button>
+            <button onClick={() => setSort('status')} disabled={sort === 'status'} 
+            className="text-slate-400 ml-2 hover:cursor-pointer disabled:text-white hover:text-slate-200">Status</button>
         </div>
     </div>
   )

@@ -18,7 +18,7 @@ const ShowBook = ({user}) => {
     const [inDatabase, setInDatabase] = useState();
     const [entry, setEntry] = useState(null);
     const [hasEntry, setHasEntry] = useState(false)
-
+    const [createdEntry, setCreatedEntry] = useState(false);
 
 
     useEffect(() => {
@@ -41,7 +41,6 @@ const ShowBook = ({user}) => {
                     .then((response) => {
                         console.log('entry')
                         console.log(response.data[0]);
-
                         if(response.data[0]){
                             setEntry(response.data[0]);
                             setHasEntry(true);
@@ -64,7 +63,8 @@ const ShowBook = ({user}) => {
 
     }
     fetchBook();
-    }, [id])
+    }, [id, createdEntry])
+
 
   return (
     <div className="bg-slate-950 h-screen w-screen">
@@ -75,7 +75,7 @@ const ShowBook = ({user}) => {
                 <BookPageDisplay book={book}/>
                 {hasEntry ? 
                 <BookEntry book={book} user={user} inDatabase={inDatabase} score={entry.Score} ID={entry.entryID} pagesread={entry.PagesRead} status={entry.ReadingStatus} setInDatabase={setInDatabase}/> 
-                : <NewBookEntry setHasEntry={setHasEntry} inDatabase={inDatabase} book={book} user={user}/>}
+                : <NewBookEntry setCreatedEntry={setCreatedEntry} inDatabase={inDatabase} book={book} user={user}/>}
             </div>
         }
     </div>
