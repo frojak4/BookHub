@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import Spinner from '../components/Spinner';
@@ -8,9 +8,10 @@ import { checkIfInDatabase, formatBook } from '../components/utility';
 import BookImage from '../components/BookImage';
 import BookEntry from '../components/BookEntry';
 import NewBookEntry from '../components/NewBookEntry';
+import { userContext } from '../App';
 
 
-const ShowBook = ({user}) => {
+const ShowBook = () => {
 
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
@@ -19,6 +20,7 @@ const ShowBook = ({user}) => {
     const [entry, setEntry] = useState(null);
     const [hasEntry, setHasEntry] = useState(false)
     const [createdEntry, setCreatedEntry] = useState(false);
+    const [user, setUser] = useContext(userContext);
 
 
     useEffect(() => {

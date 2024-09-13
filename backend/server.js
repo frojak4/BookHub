@@ -25,6 +25,9 @@ app.use('/user', userRouter);
 const entryRouter = require('./entries.js');
 app.use('/entry', entryRouter);
 
+const connectionRouter = require('./connections.js');
+app.use('/follow', connectionRouter);
+
 app.get('/all', (req, res) => {
     const request = new sql.Request();
     request.query('SELECT * FROM BOOKS', (err, result) => {

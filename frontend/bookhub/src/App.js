@@ -2,24 +2,29 @@ import logo from './logo.svg';
 import './App.css';
 import {Routes, Route} from 'react-router-dom';
 import ShowBook from './pages/ShowBook';
-import AllBooks from './pages/AllBooks';
 import Home from './pages/Home';
 import LogIn from './pages/LogIn';
 import Profile from './pages/Profile';
-import React, {useState} from 'react';
+import React, {createContext, useState} from 'react';
+
+
+export const userContext = createContext();
 
 function App() {
+
+
 
   const [user, setUser] = useState({username: '', user_id: null});
 
   return (
-    <Routes>
-      <Route path='/' element={<LogIn user={user} setUser={setUser}/>}/>
-      <Route path='/home' element={<Home user={user}/>}/>
-      <Route path='/books/:id' element={<ShowBook user={user}/>}/>
-      <Route path='/all/:sort' element={<AllBooks/>}/>
-      <Route path='/user/:username' element={<Profile/>}/>
-    </Routes>
+    <userContext.Provider value={[user, setUser]}>
+      <Routes>
+        <Route path='/' element={<LogIn/>}/>
+        <Route path='/home' element={<Home/>}/>
+        <Route path='/books/:id' element={<ShowBook/>}/>
+        <Route path='/user/:username' element={<Profile/>}/>
+      </Routes>
+    </userContext.Provider>
   );
 }
 

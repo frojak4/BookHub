@@ -66,7 +66,7 @@ const BookEntry = ({inDatabase, pagesread, score, book, status, ID, user}) => {
     <div className="ml-6 bg-slate-800 w-44 h-44 flex flex-col justify-center items-center rounded-2xl">
     {!editToggle &&
         <div className="flex flex-col text-center">
-            {score && <h3 className="text-white text-4xl mb-4">{score}/10</h3>}
+            {score && <h3 className="text-white text-4xl mb-4">{newScore}/10</h3>}
             <h3 className="text-slate-400">Status: {newStatus}</h3>
             <h3 className="text-slate-400">Pages Read: {newPages} / {book.Pages}</h3>
             <button onClick={() => setEditToggle(true)} className="text-white mt-2">Edit</button>

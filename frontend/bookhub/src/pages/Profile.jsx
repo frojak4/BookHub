@@ -4,16 +4,17 @@ import axios from 'axios';
 import Library from '../components/Library';
 import Spinner from '../components/Spinner';
 import Header from '../components/Header';
+import User from '../components/User';
 const Profile = () => {
 
     const {username} = useParams();
-    const [user, setUser] = useState();
+    const [displayUser, setDisplayUser] = useState();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         axios.get(`http://localhost:3000/user/${username}`)
         .then((response) => {
-            setUser(response.data[0]);
+            setDisplayUser(response.data[0]);
             setLoading(false);
         }).catch((err) => console.log(err))
     }, [username])
@@ -23,8 +24,9 @@ const Profile = () => {
     <div className="bg-slate-950 min-w-screen min-h-screen">
         <Header/>
         {loading ? <Spinner/> : 
-        <div className="flex justify-center">
-            <Library user={user}/>
+        <div className="flex justify-evenly">
+            <User userToDisplay={displayUser} />
+            <Library userToDisplay={displayUser}/>
         </div>
         }
     </div>

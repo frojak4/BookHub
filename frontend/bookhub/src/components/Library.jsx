@@ -4,7 +4,7 @@ import Spinner from '../components/Spinner';
 import BookInList from './BookInList';
 import SortingButtons from './SortingButtons';
 
-const Library = ({user}) => {
+const Library = ({userToDisplay}) => {
 
     const [sort, setSort] = useState('titlesort')
     const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ const Library = ({user}) => {
 
     useEffect(() => {
         axios
-        .get(`http://localhost:3000/user/allbooks/${user.user_id}/${sort}`)
+        .get(`http://localhost:3000/user/allbooks/${userToDisplay.user_id}/${sort}`)
         .then((response) => {
             setBooks(response.data)
             setLoading(false);
@@ -26,7 +26,7 @@ const Library = ({user}) => {
 
   return (
     <div className="flex align-center flex-col mt-7">
-            <h3 className="text-white text-2xl text-center">{user.username}'s library</h3>
+            <h3 className="text-white text-2xl text-center">{userToDisplay.username}'s library</h3>
             <div className="bg-slate-800 h-[32rem] w-[32rem] rounded-xl mt-2 overflow-auto">
             <SortingButtons setSort={setSort} sort={sort}/>
                 {loading ? <Spinner/> : 

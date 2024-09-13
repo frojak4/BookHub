@@ -1,14 +1,17 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import Header from '../components/Header'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { userContext } from '../App';
 
-const LogIn = ({user, setUser}) => {
+const LogIn = () => {
 
     const [register, setRegister] = useState(false);
     const [usernameInput, setUsernameInput] = useState("");
     const [errorMSG, setErrorMSG] = useState(false);
+    const [user, setUser] = useContext(userContext);
     const navigate = useNavigate();
+
 
     const handleChange = (e) => {
         setUsernameInput(e.target.value)
