@@ -45,7 +45,7 @@ const Header = ({searchBar}) => {
   return (
     <div className="bg-slate-800 h-12 w-screen flex justify-between items-center">
         <Link to={'/home'}>
-            <h3 className="text-2xl text-amber-400 ml-2">BookHub</h3>
+            <h3 className="text-2xl text-lime-500 ml-2">Bookhub</h3>
         </Link>
         {searchBar && 
         <div>
@@ -53,9 +53,9 @@ const Header = ({searchBar}) => {
           <input className="w-56 rounded-md" value={search} onInput={handleSearch} onBlur={() => setIsFocused(true)} onFocus={() => setIsFocused(true)} placeholder="Search Books"></input>
           <form className="ml-2 mt-2 text-sm text-white" onChange={handleSearchSort}>
             Search for
-            <input checked className="mx-1" type="radio" name="sort" value="books" />
+            <input checked={searchSort === 'books'} className="mx-1" type="radio" name="sort" value="books" />
             Books
-            <input className="mx-1" type="radio" name="sort" value="users"/>
+            <input checked={searchSort === 'users'} className="mx-1" type="radio" name="sort" value="users"/>
             Users
           </form>
           </div>

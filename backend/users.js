@@ -18,6 +18,8 @@ userRouter.get('/:name', (req, res) => {
     })
 })
 
+
+
 userRouter.get('/allbooks/:id/status/:status', (req, res) => {
     const request = new sql.Request();
     request.input('id', sql.Int, req.params.id);
@@ -120,7 +122,6 @@ userRouter.get('/getentry/:bookid/:userid', (req, res) => {
 
 userRouter.get('/search/:name', (req, res) => {
     const request = new sql.Request();
-    
 
     request.query(`SELECT * from users WHERE username LIKE '%${req.params.name}%'`, (err, result) => {
         if (err){

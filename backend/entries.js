@@ -41,5 +41,21 @@ entryRouter.post('/create', (req, res) => {
                     })
 })
 
+entryRouter.get('/following/:id', (req, res) => {
+    const request = new sql.Request();
+    request.input('id', sql.Int, req.params.id)
+    request.query(`SELECT * FROM entries
+                    JOIN connections on entries.userID = connections.user2ID
+                    JOIN users on users.user_id = connections.user2ID 
+                    JOIN BOOKS on BOOKS.ID = entries.bookID
+                    WHERE connections.user1ID = @id ORDER BY entries.entryID DESC;`, (err, result) => {
+                        if (err){
+                            res.status(400).send(err);
+                        } else {
+                            res.status(200).send(result.recordset)
+                        }
+                    })
+})
+
 
 module.exports = entryRouter;

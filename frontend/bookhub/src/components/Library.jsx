@@ -27,7 +27,8 @@ const Library = ({userToDisplay}) => {
   return (
     <div className="flex align-center flex-col mt-7">
             <h3 className="text-white text-2xl text-center">{userToDisplay.username}'s library</h3>
-            <div className="bg-slate-800 h-[32rem] w-[32rem] rounded-xl mt-2 overflow-auto">
+            <div className="bg-slate-800 h-[32rem] w-[32rem] rounded-xl mt-2 overflow-auto
+            scrollbar scrollbar-thumb-rounded-full scrollbar-w-2 scrollbar-thumb-lime-500 hover:scrollbar-thumb-lime-600">
             <SortingButtons setSort={setSort} sort={sort}/>
                 {loading ? <Spinner/> : 
                 books.map((book, i) => {

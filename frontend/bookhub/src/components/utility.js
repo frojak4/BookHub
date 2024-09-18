@@ -38,8 +38,16 @@ export const addBookToServer = async (book) => {
 }
 
 export const fetchBook = async (id) => {
+    try {
     const response = await axios.get(`http://localhost:3000/books/${id}`)
+    return response.data;
+    } catch (error) {
+        console.log(error)
+    }
 }
+
+
+
 
 export const checkIfInDatabase = async (id) => {
     try {

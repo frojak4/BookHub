@@ -25,9 +25,10 @@ const ShowBook = () => {
 
     useEffect(() => {
         setLoading(true);
-
+        setHasEntry(false);
         const fetchBook = async () => {
 
+            
             const inDB = await checkIfInDatabase(id);
             setInDatabase(inDB);
             
@@ -76,7 +77,8 @@ const ShowBook = () => {
                 <BookImage book={book}/> 
                 <BookPageDisplay book={book}/>
                 {hasEntry ? 
-                <BookEntry book={book} user={user} inDatabase={inDatabase} score={entry.Score} ID={entry.entryID} pagesread={entry.PagesRead} status={entry.ReadingStatus} setInDatabase={setInDatabase}/> 
+                <BookEntry book={book} user={user} inDatabase={inDatabase} score={entry.Score} ID={entry.entryID} 
+                pagesread={entry.PagesRead} status={entry.ReadingStatus} setInDatabase={setInDatabase}/> 
                 : <NewBookEntry setCreatedEntry={setCreatedEntry} inDatabase={inDatabase} book={book} user={user}/>}
             </div>
         }
