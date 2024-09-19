@@ -1,36 +1,67 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom';
 
 const UserFeedItem = ({entry}) => {
+
+    const [date, setDate] = useState('');
+    const [time, setTime] = useState('');
+    const moment = require('moment')
+
+    useEffect(() => {
+        const newDate = moment(new Date(entry.Date))
+    
+        setDate(newDate.format("dddd"));
+        setTime(newDate.format("HH:mm"));
+    }, [])
+
+
   return (
-    <div className="flex flex-col border-b-2 border-slate-600 p-3">
+    <div className="flex flex-col border-b-2 border-slate-600">
         <h3 className="text-slate-400">
             {entry.ReadingStatus === 'Done' && 
-            <h3>
-                <span className="text-white">
-                    <Link to={`/user/${entry.username}`}>{entry.username}</Link>
-                    </span> read <span className="text-white">
-                        <Link to={`/books/${entry.GoogleID[0]}`}>{entry.Title}</Link>
-                        </span>
-                {entry.Score && ` and gave it a ${entry.Score}/10`}</h3>
+            <div>
+                <div className="text-sm text-slate-500 flex justify-center m-0">
+                    <h3 className="mx-2">{date}</h3>
+                    <h3 className="mx-2">{time}</h3>
+                </div>
+                <h3 className="px-3 pb-3">
+                    <span className="text-white">
+                        <Link to={`/user/${entry.username}`}>{entry.username}</Link>
+                        </span> read <span className="text-white">
+                            <Link to={`/books/${entry.GoogleID[0]}`}>{entry.Title}</Link>
+                            </span>
+                    {entry.Score && ` and gave it a ${entry.Score}/10`}</h3>
+            </div>
             }
             {entry.ReadingStatus === 'Reading' && 
-            <h3>
+            <div>
+            <div className="text-sm text-slate-500 flex justify-center m-0">
+                <h3 className="mx-2">{date}</h3>
+                <h3 className="mx-2">{time}</h3>
+            </div>
+            <h3 className="px-3 pb-3">
                 <span className="text-white">
                 <Link to={`/user/${entry.username}`}>{entry.username}</Link>
                     </span> is currently reading <span className="text-white">
                     <Link to={`/books/${entry.GoogleID[0]}`}>{entry.Title}.</Link>
                         </span>
                 </h3>
+            </div>
             }
             {entry.ReadingStatus === 'Want to Read' && 
-            <h3>
+            <div>
+            <div className="text-sm text-slate-500 flex justify-center m-0">
+                <h3 className="mx-2">{date}</h3>
+                <h3 className="mx-2">{time}</h3>
+            </div>
+            <h3 className="px-3 pb-3">
                 <span className="text-white">
                 <Link to={`/user/${entry.username}`}>{entry.username}</Link>
                     </span> wants to read <span className="text-white">
                     <Link to={`/books/${entry.GoogleID[0]}`}>{entry.Title}.</Link>
                         </span>
                 </h3>
+            </div>
             }
         </h3>
     </div>

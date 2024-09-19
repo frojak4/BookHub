@@ -75,7 +75,7 @@ const ShowBook = () => {
         {loading ? <Spinner/> : 
             <div className="flex justify-center mt-16">
                 <BookImage book={book}/> 
-                <BookPageDisplay book={book}/>
+                <BookPageDisplay className="flex-1" book={book}/>
                 {hasEntry ? 
                 <BookEntry book={book} user={user} inDatabase={inDatabase} score={entry.Score} ID={entry.entryID} 
                 pagesread={entry.PagesRead} status={entry.ReadingStatus} setInDatabase={setInDatabase}/> 

@@ -11,8 +11,9 @@ entryRouter.put('/update', (req, res) => {
     request.input('Score', sql.Int, entry.Score);
     request.input('ID', sql.Int, entry.ID);
     request.input('userID', sql.Int, entry.userID)
+    request.input('Date', sql.DateTime, entry.Date);
 
-    request.query(`UPDATE entries SET PagesRead = @Pages, ReadingStatus = @Status, Score = @Score WHERE entryID = @ID AND userID = @userID`, (err, result) => {
+    request.query(`UPDATE entries SET PagesRead = @Pages, ReadingStatus = @Status, Score = @Score, Date = @Date WHERE entryID = @ID AND userID = @userID`, (err, result) => {
         if (err) {
             res.status(400).send(err);
         } else {
@@ -30,9 +31,10 @@ entryRouter.post('/create', (req, res) => {
     request.input('bookID', sql.Int, entry.ID);
     request.input('userID', sql.Int, entry.userID);
     request.input('GoogleID', sql.VarChar, entry.GoogleID);
+    request.input('Date', sql.DateTime, entry.Date);
     
-    request.query(`INSERT INTO entries (BookID, userID, PagesRead, ReadingStatus, Score, GoogleID)
-                    VALUES (@bookID, @userID, @Pages, @Status, @Score, @GoogleID)`, (err, result) => {
+    request.query(`INSERT INTO entries (BookID, userID, PagesRead, ReadingStatus, Score, GoogleID, Date)
+                    VALUES (@bookID, @userID, @Pages, @Status, @Score, @GoogleID, @Date)`, (err, result) => {
                         if (err) {
                             res.status(400).send(err);
                         } else{
@@ -48,7 +50,7 @@ entryRouter.get('/following/:id', (req, res) => {
                     JOIN connections on entries.userID = connections.user2ID
                     JOIN users on users.user_id = connections.user2ID 
                     JOIN BOOKS on BOOKS.ID = entries.bookID
-                    WHERE connections.user1ID = @id ORDER BY entries.entryID DESC;`, (err, result) => {
+                    WHERE connections.user1ID = @id ORDER BY entries.Date DESC`, (err, result) => {
                         if (err){
                             res.status(400).send(err);
                         } else {

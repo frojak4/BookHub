@@ -64,15 +64,17 @@ const NewBookEntry = ({book, user, inDatabase, setCreatedEntry}) => {
         if (!inDatabase){
             await addBookToServer(book);
        }
-
-       
+       const moment = require('moment');
+       let date = moment();
+       const formatDate = date.format().slice(0, 19).replace('T', ' ');
         const entry = {
             Pages: newPages,
             Status: newStatus,
             Score: newScore,
             ID: await getBookID(book.GoogleID),
             userID: user.user_id,
-            GoogleID: book.GoogleID
+            GoogleID: book.GoogleID,
+            Date: formatDate
         }
         await createEntry(entry);
         setToggleAdd(!toggleAdd);

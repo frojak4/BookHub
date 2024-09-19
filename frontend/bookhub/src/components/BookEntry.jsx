@@ -47,12 +47,18 @@ const BookEntry = ({inDatabase, pagesread, score, book, status, ID, user}) => {
      const handleConfirmChange = () => {
         if(newStatus){
             setEditToggle(false);
+
+            const moment = require('moment');
+            let date = moment();
+            const formatDate = date.format().slice(0, 19).replace('T', ' ');
+
             const entry = {
                 Pages: newPages,
                 Status: newStatus,
                 Score: newScore,
                 ID: ID,
-                userID: user.user_id
+                userID: user.user_id,
+                Date: formatDate
             }
             updateEntry(entry);
         } else {
