@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { addBookToServer, updateEntry} from './utility'
 
 const BookEntry = ({inDatabase, pagesread, score, book, status, ID, user}) => {
@@ -10,6 +10,12 @@ const BookEntry = ({inDatabase, pagesread, score, book, status, ID, user}) => {
     const [newStatus, setNewStatus] = useState(status)
     const [errorMSG, setErrorMSG] = useState("");
     const [pageDisable, setPageDisable] = useState(true);
+
+    useEffect(() => {
+        if (status === 'Reading'){
+            setPageDisable(false);
+        }
+    }, [])
  
      const handlePageChange = (e) => {
          if (e.target.value < book.Pages) {

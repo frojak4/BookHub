@@ -3,16 +3,9 @@ import {Link} from 'react-router-dom';
 
 const UserFeedItem = ({entry}) => {
 
-    const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
     const moment = require('moment')
-
-    useEffect(() => {
-        const newDate = moment(new Date(entry.Date))
+    const [time, setTime] = useState(moment(new Date(entry.Date)).fromNow());
     
-        setDate(newDate.format("dddd"));
-        setTime(newDate.format("HH:mm"));
-    }, [])
 
 
   return (
@@ -20,8 +13,7 @@ const UserFeedItem = ({entry}) => {
         <h3 className="text-slate-400">
             {entry.ReadingStatus === 'Done' && 
             <div>
-                <div className="text-sm text-slate-500 flex justify-center m-0">
-                    <h3 className="mx-2">{date}</h3>
+                <div className="text-sm text-slate-500 flex justify-end m-0">
                     <h3 className="mx-2">{time}</h3>
                 </div>
                 <h3 className="px-3 pb-3">
@@ -35,8 +27,7 @@ const UserFeedItem = ({entry}) => {
             }
             {entry.ReadingStatus === 'Reading' && 
             <div>
-            <div className="text-sm text-slate-500 flex justify-center m-0">
-                <h3 className="mx-2">{date}</h3>
+            <div className="text-sm text-slate-500 flex justify-end m-0">
                 <h3 className="mx-2">{time}</h3>
             </div>
             <h3 className="px-3 pb-3">
@@ -50,8 +41,7 @@ const UserFeedItem = ({entry}) => {
             }
             {entry.ReadingStatus === 'Want to Read' && 
             <div>
-            <div className="text-sm text-slate-500 flex justify-center m-0">
-                <h3 className="mx-2">{date}</h3>
+            <div className="text-sm text-slate-500 flex justify-end m-0">
                 <h3 className="mx-2">{time}</h3>
             </div>
             <h3 className="px-3 pb-3">
