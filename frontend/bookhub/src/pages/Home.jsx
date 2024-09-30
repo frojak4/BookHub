@@ -30,8 +30,9 @@ const Home = () => {
         <Header searchBar={true}/>
         <div className="flex justify-evenly flex-wrap">
         <User userToDisplay={user} yourUser={true}/>
-        <UserFeed />
         <Library userToDisplay={user}/>
+        <UserFeed />
+        
         </div>
     </div>
     }

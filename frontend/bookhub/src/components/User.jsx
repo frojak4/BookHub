@@ -75,7 +75,7 @@ const User = ({userToDisplay}) => {
 
 
   return (
-    <div className="bg-slate-800 h-72 w-64 mt-24 rounded-xl flex items-center flex-col">
+    <div className="bg-slate-800 h-72 w-64 mt-16 rounded-xl flex items-center flex-col">
         <img className="rounded-full h-24 w-24 mt-2" alt="profile" src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"/>
         <h2 className="text-white text-lg border-b-2 border-slate-600 w-full text-center">{userToDisplay.username}</h2>
         {loading ? <Spinner/> : 

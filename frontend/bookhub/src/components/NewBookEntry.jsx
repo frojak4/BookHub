@@ -67,6 +67,7 @@ const NewBookEntry = ({book, user, inDatabase, setCreatedEntry}) => {
        const moment = require('moment');
        let date = moment();
        const formatDate = date.format().slice(0, 19).replace('T', ' ');
+       
         const entry = {
             Pages: newPages,
             Status: newStatus,
