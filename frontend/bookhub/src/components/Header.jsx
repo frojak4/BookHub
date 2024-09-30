@@ -50,7 +50,8 @@ const Header = ({searchBar}) => {
         {searchBar && 
         <div>
           <div className="flex">
-          <input className="w-56 rounded-md" value={search} onInput={handleSearch} onBlur={() => setIsFocused(true)} onFocus={() => setIsFocused(true)} placeholder="Search Books"></input>
+          <input className="w-56 rounded-md" value={search} onInput={handleSearch} onBlur={() => setIsFocused(true)} onFocus={() => setIsFocused(true)}
+           placeholder={searchSort === 'books' ? 'Search Books' : 'Search Users'}></input>
           <form className="ml-2 mt-2 text-sm text-white" onChange={handleSearchSort}>
             Search for
             <input checked={searchSort === 'books'} className="mx-1" type="radio" name="sort" value="books" />

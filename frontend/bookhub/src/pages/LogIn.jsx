@@ -16,25 +16,51 @@ const LogIn = () => {
 
     const handleUserChange = (e) => {
         setUsernameInput(e.target.value)
-        errorMSG(false);
+        setErrorMSG('');
     }
 
     const handlePasswordChange = (e) => {
         setPasswordInput(e.target.value)
-        errorMSG(false);
+        setErrorMSG('');
     }
 
     useEffect(() => {
         setUser({username: '', user_id: null});
     }, [])
 
-    const handleLogIn = async () => {
-        axios.get(`http://localhost:3000/user/${usernameInput}`)
+    const handleLogIn = async (username, password) => {
+
+        const userObject = {
+            username: username,
+            password: password
+        }
+        axios.get(`http://localhost:3000/user/login/user`, {params: userObject})
         .then((response) => {
+            if (response.data.length > 0){
             setUser(response.data[0]);
             navigate('/home');
+            } else setErrorMSG('Could not log in to account');
         })
-        .catch(() => setErrorMSG(true))
+        .catch(() => setErrorMSG('Could not log in to account'))
+    }
+
+    const handleRegister = async () => {
+        axios.get(`http://localhost:3000/user/${usernameInput}`)
+        .then((response) => {
+            console.log(response.data)
+            if (response.data.length === 0){    
+                const userObject = {
+                    username: usernameInput,
+                    password: passwordInput
+                }
+                axios.post(`http://localhost:3000/user/register/user`, userObject)
+                .then((response) => {
+                    handleLogIn(usernameInput, passwordInput);
+                }).catch((err) => console.log(err))
+            } else {
+                setErrorMSG('Username already in use. Please choose a new one.')
+            }
+        })
     }
 
   return (
@@ -55,17 +81,17 @@ const LogIn = () => {
                     <input onChange={handleUserChange} value={usernameInput} className="h-8 p-2 my-1" type="text" placeholder="Username"/> 
                     <input onChange={handlePasswordChange} value={passwordInput} className="h-8 p-2 my-1" type="password" placeholder="Password"/> 
                     {register ? 
-                    <button onClick={handleLogIn} className="bg-slate-600 text-white my-1 w-24 h-8 px-2 hover:cursor-pointer"> 
+                    <button onClick={handleRegister} className="bg-slate-600 text-white my-1 w-24 h-8 px-2 hover:cursor-pointer"> 
                     Register
                     </button>
                     :
-                    <button onClick={handleLogIn} className="bg-slate-600 text-white my-1 w-24 h-8 px-2 hover:cursor-pointer"> 
+                    <button onClick={() => handleLogIn(usernameInput, passwordInput)} className="bg-slate-600 text-white my-1 w-24 h-8 px-2 hover:cursor-pointer"> 
                         Log In
                     </button>
                     }
                     
                 </div>
-                {errorMSG && <h3 className="text-red-500 text-center">Could not log in to account</h3>}
+                {errorMSG !== '' && <h3 className="text-red-500 text-center">{errorMSG}</h3>}
             
         </div>
     </div>

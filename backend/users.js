@@ -1,5 +1,6 @@
 const express = require('express');
 const sql = require('./config.js');
+const bcrypt = require('bcrypt');
 
 const userRouter = express.Router();
 
@@ -10,7 +11,7 @@ userRouter.get('/:name', (req, res) => {
         if (err){
             res.status(400).send(err);
         } else if (result.recordset.length === 0) {
-            res.status(400).send('Could not fetch user');
+            res.status(200).send([]);
         }
          else {
             res.status(200).send(result.recordset);
@@ -133,5 +134,46 @@ userRouter.get('/search/:name', (req, res) => {
 })
 
 
+userRouter.get('/login/user', (req, res) => {
+    const request = new sql.Request();
+
+    const user = req.query;
+    request.input('username', sql.VarChar, user.username);
+    request.input('password', sql.VarChar, user.password);
+    console.log(user);
+    
+
+    request.query(`SELECT * from users WHERE username = @username`, (err, result) => {
+        if (err){
+            res.status(400).send(err);
+        } else {
+            console.log(user.password)
+            console.log(result.recordset[0].password)
+             bcrypt.compare(user.password, result.recordset[0].password)
+             .then((passMatch) => {
+                if (passMatch){
+                     res.status(200).send(result.recordset);
+                 } else res.status(200).send([]);
+             })
+        }
+    })
+})
+
+userRouter.post('/register/user', (req, res) => {
+    const request = new sql.Request();
+
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+        request.input('username', sql.VarChar, req.body.username);
+        request.input('password', sql.VarChar, hash);
+
+        request.query(`INSERT INTO users (username, password) VALUES (@username, @password)`, (err, result) => {
+            if (err){
+                res.status(400).send(err)
+            } else {
+                res.status(200).send(result.recordset);
+            }
+        })
+    })
+})
 
 module.exports = userRouter;
