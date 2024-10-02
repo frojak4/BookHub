@@ -24,7 +24,7 @@ const Profile = () => {
     <div className="bg-slate-950 min-w-screen min-h-screen">
         <Header/>
         {loading ? <Spinner/> : 
-        <div className="flex justify-evenly">
+        <div className="flex justify-evenly w-[80vw] mx-auto">
             <User userToDisplay={displayUser} />
             <Library userToDisplay={displayUser}/>
         </div>

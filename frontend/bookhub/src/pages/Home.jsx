@@ -28,7 +28,7 @@ const Home = () => {
     <div className="bg-slate-950 min-w-screen min-h-screen">
         
         <Header searchBar={true}/>
-        <div className="flex justify-evenly flex-wrap">
+        <div className="flex justify-center flex-wrap w-8/12 mx-auto">
         <User userToDisplay={user} yourUser={true}/>
         <Library userToDisplay={user}/>
         <UserFeed />
