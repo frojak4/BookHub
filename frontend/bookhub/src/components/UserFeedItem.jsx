@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 const UserFeedItem = ({entry}) => {
 
     const moment = require('moment')
-    const [time, setTime] = useState(moment(new Date(entry.Date)).fromNow());
+    const time = moment(new Date(entry.Date)).fromNow()
     
 
 

@@ -140,15 +140,12 @@ userRouter.get('/login/user', (req, res) => {
     const user = req.query;
     request.input('username', sql.VarChar, user.username);
     request.input('password', sql.VarChar, user.password);
-    console.log(user);
     
 
     request.query(`SELECT * from users WHERE username = @username`, (err, result) => {
         if (err){
             res.status(400).send(err);
         } else {
-            console.log(user.password)
-            console.log(result.recordset[0].password)
              bcrypt.compare(user.password, result.recordset[0].password)
              .then((passMatch) => {
                 if (passMatch){

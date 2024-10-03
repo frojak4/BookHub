@@ -69,10 +69,10 @@ const LogIn = () => {
         <div className="text-white flex justify-center mt-8">Welcome to BookHub, please log in or register to continue</div>
         <div>
             <div className="flex justify-center mt-4">
-                <button onClick={() => setRegister(!register)} className="bg-white disabled:bg-slate-600 mx-1 w-20 rounded-lg py-1" disabled={!register}>
+                <button onClick={() => setRegister(!register)} className="bg-gray-200 disabled:bg-slate-600 hover:bg-gray-400 mx-1 w-20 rounded-lg py-1" disabled={!register}>
                     Login
                 </button>
-                <button onClick={() => setRegister(!register)} className="bg-white disabled:bg-slate-600 mx-1 w-20 rounded-lg py-1" disabled={register}>
+                <button onClick={() => setRegister(!register)} className="bg-gray-200 disabled:bg-slate-600 hover:bg-gray-400 mx-1 w-20 rounded-lg py-1" disabled={register}>
                     Register
                 </button>
             </div>
@@ -85,7 +85,7 @@ const LogIn = () => {
                     Register
                     </button>
                     :
-                    <button onClick={() => handleLogIn(usernameInput, passwordInput)} className="bg-slate-600 text-white my-1 w-24 h-8 px-2 hover:cursor-pointer"> 
+                    <button onClick={() => handleLogIn(usernameInput, passwordInput)} className="bg-slate-600 hover:bg-slate-700 active:bg-slate-500 text-white my-1 w-24 h-8 px-2 hover:cursor-pointer"> 
                         Log In
                     </button>
                     }
