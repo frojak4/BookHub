@@ -12,6 +12,7 @@ I started with a simple book table in the database, that could store the books t
 ***
 The frontend mainly consists of 4 different pages and is handled by react-router-dom:
 ## Log In
+<img alt="Log In Page" src="/screenshots/LogIn.png?raw=true" width="200">
 ![Log In Page](/screenshots/LogIn.png?raw=true =250x)
 The app has a very simple log in / register page, with only username and password. 
 When you create an account, the password gets hashed and the info gets pushed to my SQL Server database.
@@ -27,10 +28,10 @@ A user can sort the library by Title (default), Author, Score and status.
 #### **Feed**
 The feed shows recent book entries from people that the user is following sorted by date. The time formatting is made using momentjs.
 ## Profile
-![Profile Page](/screenshots/Profile.png?raw=true=250x =250x)
+![Profile Page](/screenshots/Profile.png?raw=true =250x)
 Uses the same user and library components as *home*, with just a little different layout and some other functionalities.
 ## Book
-![Book Page](/screenshots/Book.png?raw=true=250x =250x)
+![Book Page](/screenshots/Book.png?raw=true =250x)
 The book is first fetched from the parameters of the url, which is just the google books ID of the book. When fetching a book it first checks if it already is in my database, or else it will get it from google books. On this page users can see the picture and description of the book, as well as adding or editing their own *entry* of the book. When a user adds an entry for a book not in my database, it will automatically add it.
 ## Search
 ![Book Search](/screenshots/SearchBook.png?raw=true =100x)
