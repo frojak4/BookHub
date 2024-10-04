@@ -4,8 +4,11 @@ The thought was to make a *GoodReads* type of application, where users can keep 
 
 ## Process
 -Frontend stack: React, tailwindcss
+
 -Backend stack: Node.js, express.js, SQL Server
+
 -Other: Google Books API (for fetching books), Postman (for testing)
+
 
 I was quite comfortable with React before starting this project (although I had never made anything in this scale), but I had never used any of the backend technologies.
 I started with a simple book table in the database, that could store the books that I fetch from the Google Books API. Later I expanded the database to include *users*, *entries* and *connections*.
