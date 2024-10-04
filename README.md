@@ -12,7 +12,7 @@ I started with a simple book table in the database, that could store the books t
 ***
 The frontend mainly consists of 4 different pages and is handled by react-router-dom:
 ## Log In
-<img alt="Log In Page" src="/screenshots/LogIn.png?raw=true" width="200">
+<img alt="Log In Page" src="/screenshots/LogIn.png?raw=true" width="500">
 ![Log In Page](/screenshots/LogIn.png?raw=true =250x)
 The app has a very simple log in / register page, with only username and password. 
 When you create an account, the password gets hashed and the info gets pushed to my SQL Server database.
